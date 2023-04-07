@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const app = express()
 const mongoose = require('mongoose')
+require('dotenv').config()
 const usercontroller = require('./controllers/userController')
 const productcontroller = require('./controllers/productcontroller')
 const logincontroller = require('./controllers/logincontroller')
