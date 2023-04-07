@@ -3,10 +3,10 @@ const router = express.Router();
 const app = express()
 const mongoose = require('mongoose')
 require('dotenv').config()
-const usercontroller = require('./controllers/userController')
-const productcontroller = require('./controllers/productcontroller')
-const logincontroller = require('./controllers/logincontroller')
-const categorycontroller = require('./controllers/categorycontroller')
+const usercontroller = require('./controllers/UserController')
+const productcontroller = require('./controllers/ProductController')
+const logincontroller = require('./controllers/LoginController')
+const categorycontroller = require('./controllers/CategoryController')
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

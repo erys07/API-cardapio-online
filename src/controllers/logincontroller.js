@@ -1,26 +1,36 @@
-const yup = require('yup')
-const Login = require('../models/login')
+const jwt = require('jsonwebtoken');
+const yup = require('yup');
+const Person = require('../models/person');
 
 const userSchema = yup.object().shape({
-    email: yup.string().email().required().test(async function (value) {
-        const user = await Login.findOne({email: value});
-        return !user;
-    }),
-    password: yup.string().required().min(6),
+    email: yup.string().email().required(),
+    password: yup.string().required(),
 });
 
-class loginController {
+class LoginController {
     async loginUser(req, res) {
-        const {email, password } = req.body
+        const { email, password } = req.body;
 
         try {
             await userSchema.validate(req.body);
 
-            return res.status(200).json({ message: "Login realizado com sucesso!" });
-          } catch (err) {
-            return res.status(400).json({ error: "Usuário não encontrado" });
-          }
+            const user = await Person.findOne({ email});
+            if (!user || user.password !== password) {
+                return res.status(401).json({ error: 'Usuário não autorizado' });
+            }
+
+            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+            return res.status(200).json({ message: "Login realizado com sucesso!", token });
+        } catch (err) {
+            console.log(err); 
+            if (err.name === 'ValidationError') {
+                return res.status(400).json({ error: "Erro de validação" });
+            } else {
+                return res.status(500).json({ error: 'Erro interno do servidor' });
+            }
         }
     }
+}
 
-module.exports = new loginController();
+module.exports = new LoginController();
