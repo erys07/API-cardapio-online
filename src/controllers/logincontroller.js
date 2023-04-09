@@ -9,12 +9,12 @@ const userSchema = yup.object().shape({
 
 class LoginController {
     async loginUser(req, res) {
-        const { email, password } = req.body;
-
         try {
-            await userSchema.validate(req.body);
+            const { email, password } = req.body;
 
-            const user = await Person.findOne({ email});
+            await userSchema.validate({ email, password });
+
+            const user = await Person.findOne({ email });
             if (!user || user.password !== password) {
                 return res.status(401).json({ error: 'Usuário não autorizado' });
             }
@@ -23,10 +23,10 @@ class LoginController {
 
             return res.status(200).json({ message: "Login realizado com sucesso!", token });
         } catch (err) {
-            console.log(err); 
             if (err.name === 'ValidationError') {
-                return res.status(400).json({ error: "Erro de validação" });
+                return res.status(400).json({ error: "Erro de validação", messages: err.errors });
             } else {
+                console.error(err);
                 return res.status(500).json({ error: 'Erro interno do servidor' });
             }
         }
