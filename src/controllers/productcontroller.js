@@ -11,26 +11,37 @@ const schema = yup.object().shape({
 
 class UserController {
     async createProduct(req, res) {
-      const { category, name, qty, price } = req.body;
-      
-      const foundCategory = await Category.findOne({ name: category });
-      if (!foundCategory) {
-        return res.status(400).json({ error: 'Categoria não encontrada!' });
-      }
-      
+      const {category, name, qty, price} = req.body;
       try {
-        const product = await Product.create({ category: foundCategory._id, name, qty, price });
+        await schema.validate(req.body);
+  
+        const foundCategory = await Category.findOne({ name: category });
+        if (!foundCategory) {
+          return res.status(400).json({ error: 'Categoria não encontrada!' });
+        }
+  
+        const product = await Product.create({
+          category: foundCategory._id,
+          name,
+          qty,
+          price,
+        });
+  
         return res.status(201).json({
           error: false,
+          data: product,
           message: 'Produto cadastrado!',
         });
       } catch (error) {
         return res.status(400).json({
           error: true,
+          data: error.message,
           message: 'Não foi possível cadastrar produto!',
         });
       }
     }
+  
+  
 
     async getProducts(req, res) {
 
