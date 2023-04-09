@@ -3,7 +3,7 @@
  Instruções para rodar o projeto localmente:
  Para testar o projeto localmente, deve-se utilizar o Insomnia ou Postman.
  você deve fazer uma requisição HTTP do tipo correspondente ao endpoint (post, get, patch ou delete).
- passando um objeto JSON com as propriedades necessárias no corpo da requisição.
+ Passando um objeto JSON com as propriedades necessárias no corpo da requisição.
  
 Tecnologias/Frameworks/Bibliotecas usados:
 JavaScript: Linguagem de programação usada na aplicação. 
