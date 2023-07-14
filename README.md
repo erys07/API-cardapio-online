@@ -1,4 +1,4 @@
-﻿# Teste para Desenvolvedor Node
+﻿# Cardápio online 
  
  Instruções para rodar o projeto localmente:
  Para testar o projeto localmente, deve-se utilizar o Insomnia ou Postman.
